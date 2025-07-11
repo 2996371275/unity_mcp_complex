@@ -202,6 +202,10 @@ namespace McpUnity.Unity
             UpdateComponentTool updateComponentTool = new UpdateComponentTool();
             _tools.Add(updateComponentTool.Name, updateComponentTool);
             
+            // Register CreateParticleEffectTool
+            CreateParticleEffectTool createParticleEffectTool = new CreateParticleEffectTool();
+            _tools.Add(createParticleEffectTool.Name, createParticleEffectTool);
+            
             // Register AddAssetToSceneTool
             AddAssetToSceneTool addAssetToSceneTool = new AddAssetToSceneTool();
             _tools.Add(addAssetToSceneTool.Name, addAssetToSceneTool);
@@ -217,6 +221,10 @@ namespace McpUnity.Unity
             // Register AnalyzeModuleTool
             AnalyzeModuleTool analyzeModuleTool = new AnalyzeModuleTool();
             _tools.Add(analyzeModuleTool.Name, analyzeModuleTool);
+            
+            // Register AnalyzeObjectTool
+            AnalyzeObjectTool analyzeObjectTool = new AnalyzeObjectTool();
+            _tools.Add(analyzeObjectTool.Name, analyzeObjectTool);
         }
         
         /// <summary>

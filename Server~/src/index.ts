@@ -15,6 +15,8 @@ import { registerUpdateGameObjectTool } from './tools/updateGameObjectTool.js';
 import { registerAnalyzeProfilerTool } from './tools/analyzeProfilerTool.js';
 import { registerAnalyzeSpecificFrameTool } from './tools/analyzeSpecificFrameTool.js';
 import { registerAnalyzeModuleTool } from './tools/analyzeModuleTool.js';
+import { registerCreateParticleEffectTool } from './tools/createParticleEffectTool.js';
+import { registerAnalyzeObjectTool } from './tools/analyzeObjectTool.js';
 
 // Import resource modules
 import { registerGetGameObjectResource } from './resources/getGameObjectResource.js';
@@ -35,6 +37,8 @@ import { registerUnityUIPrompt } from './prompts/unityUIPrompt.js';
 import { registerUnityScriptingPrompt } from './prompts/unityScriptingPrompt.js';
 import { registerUnityFrameAnalysisPrompt } from './prompts/unityFrameAnalysisPrompt.js';
 import { registerUnityModuleAnalysisPrompt } from './prompts/unityModuleAnalysisPrompt.js';
+import { registerParticleEffectsPrompt } from './prompts/particleEffectsPrompt.js';
+import { registerObjectAnalysisPrompt } from './prompts/objectAnalysisPrompt.js';
 
 // Initialize loggers
 const serverLogger = new Logger('Server', LogLevel.INFO);
@@ -73,6 +77,8 @@ registerUpdateGameObjectTool(server, mcpUnity, toolLogger);
 registerAnalyzeProfilerTool(server, mcpUnity, toolLogger);
 registerAnalyzeSpecificFrameTool(server, mcpUnity, toolLogger);
 registerAnalyzeModuleTool(server, mcpUnity, toolLogger);
+registerCreateParticleEffectTool(server, mcpUnity, toolLogger);
+registerAnalyzeObjectTool(server, mcpUnity, toolLogger);
 
 // Register all resources into the MCP server
 registerGetGameObjectResource(server, mcpUnity, resourceLogger);
@@ -93,6 +99,8 @@ registerUnityUIPrompt(server);
 registerUnityScriptingPrompt(server);
 registerUnityFrameAnalysisPrompt(server);
 registerUnityModuleAnalysisPrompt(server);
+registerParticleEffectsPrompt(server);
+registerObjectAnalysisPrompt(server);
 
 // Server startup function
 async function startServer() {
