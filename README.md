@@ -245,17 +245,6 @@ You can change depending on the OS you are using:
 > [!TIP]  
 > The timeout between your AI Coding IDE (e.g., Claude Desktop, Cursor IDE, Windsurf IDE) and the MCP Server depends on the IDE.
 
-## Optional: Allow Remote MCP Bridge Connections
-
-By default, the WebSocket server binds to 'localhost'. To allow MCP bridge connections from other machines:
-
-1. Open the Unity Editor
-2. Navigate to Tools > MCP Unity > Server Window
-3. Enable the "Allow Remote Connections" checkbox
-4. Unity will bind the WebSocket server to '0.0.0.0' (all interfaces)
-5. Restart the Node.js server to apply the new host configuration
-6. Set the environment variable UNITY_HOST to your Unity machine's IP address when running the MCP bridge remotely: `UNITY_HOST=192.168.1.100 node server.js`
-
 ## <a name="debug-server"></a>Debugging the Server
 
 <details>

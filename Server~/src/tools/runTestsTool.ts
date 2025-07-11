@@ -10,9 +10,8 @@ const toolName = 'run_tests';
 const toolDescription = 'Runs Unity\'s Test Runner tests';
 const paramsSchema = z.object({
   testMode: z.string().optional().default('EditMode').describe('The test mode to run (EditMode or PlayMode) - defaults to EditMode (optional)'),
-  testFilter: z.string().optional().default('').describe('The specific test filter to run (e.g. specific test name or class name, must include namespace) (optional)'),
-  returnOnlyFailures: z.boolean().optional().default(true).describe('Whether to show only failed tests in the results (optional)'),
-  returnWithLogs: z.boolean().optional().default(false).describe('Whether to return the test logs in the results (optional)')
+  testFilter: z.string().optional().default('').describe('The specific test filter to run (e.g. specific test name or namespace) (optional)'),
+  returnOnlyFailures: z.boolean().optional().default(true).describe('Whether to show only failed tests in the results (optional)')
 });
 
 /**
@@ -57,8 +56,7 @@ async function toolHandler(mcpUnity: McpUnity, params: any = {}): Promise<CallTo
   const {
     testMode = 'EditMode',
     testFilter = '',
-    returnOnlyFailures = true,
-    returnWithLogs = false
+    returnOnlyFailures = true
   } = params;
 
   // Create and wait for the test run
@@ -67,8 +65,7 @@ async function toolHandler(mcpUnity: McpUnity, params: any = {}): Promise<CallTo
     params: { 
       testMode,
       testFilter,
-      returnOnlyFailures,
-      returnWithLogs
+      returnOnlyFailures
     }
   });
   

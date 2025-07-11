@@ -353,11 +353,6 @@ namespace McpUnity.Utils
                 // Fallback to /bin/bash to find 'npm' in PATH
                 startInfo.FileName = "/bin/bash";
                 startInfo.Arguments = $"-c \"npm {arguments}\"";
-
-                // Ensure PATH includes common npm locations and current PATH
-                string currentPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
-                string extraPaths = "/usr/local/bin:/opt/homebrew/bin";
-                startInfo.EnvironmentVariables["PATH"] = $"{extraPaths}:{currentPath}";
             }
 
             try

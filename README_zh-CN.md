@@ -48,6 +48,29 @@ MCP Unity 是 Model Context Protocol 在 Unity 编辑器中的实现，允许 AI
   <img width="400" height="200" src="https://glama.ai/mcp/servers/@CoderGamester/mcp-unity/badge" alt="Unity MCP 服务器" />
 </a>
 
+## 🎯 优化的中文提示词系统
+
+MCP Unity现在包含了专门为中文用户优化的AI提示词系统，让AI能够更好地理解和响应中文指令：
+
+### 🚀 智能提示词
+- **通用操作指南** (`unity_operations_guide`) - 处理常见Unity开发操作
+- **GameObject处理** (`gameobject_handling_strategy`) - 专门的游戏对象操作流程
+- **UI系统操作** (`unity_ui_operations`) - 完整的Unity UI创建和配置
+- **脚本组件管理** (`unity_scripting_operations`) - 组件添加和配置专家
+- **性能分析指导** (`unity_performance_analysis`) - 性能优化和分析
+- **综合使用指南** (`unity_mcp_comprehensive_guide`) - 完整功能概览
+
+### 🎮 使用示例
+```
+"创建一个红色的立方体" → AI自动创建GameObject，设置网格和材质
+"给玩家添加物理效果" → 自动添加Rigidbody和合适的物理参数
+"创建登录界面" → 完整的UI界面创建流程
+"游戏很卡，帮我优化" → 性能分析和优化建议
+```
+
+### 📖 详细使用指南
+查看 [Unity AI助手使用指南](UNITY_AI_GUIDE_CN.md) 了解完整的使用方法和最佳实践。
+
 ## 功能
 
 ### IDE 集成 - 包缓存访问
@@ -243,18 +266,6 @@ MCP Unity 通过将 Unity `Library/PackedCache` 文件夹添加到您的工作�
 
 > [!TIP]  
 > 您的 AI 编码 IDE（例如 Claude Desktop、Cursor IDE、Windsurf IDE）与 MCP 服务器之间的超时时间取决于 IDE。
-
-## 可选：允许远程 MCP Bridge 连接
-
-默认情况下，WebSocket 服务器绑定到 'localhost'。要允许来自其他设备的 MCP Bridge 连接，请执行以下步骤：
-
-1. 打开 Unity 编辑器  
-2. 依次点击菜单「Tools > MCP Unity > Server Window」  
-3. 勾选"Allow Remote Connections（允许远程连接）"复选框  
-4. Unity 将 WebSocket 服务器绑定到 '0.0.0.0'（所有网络接口）  
-5. 重新启动 Node.js 服务器以应用新的主机配置  
-6. 在远程运行 MCP Bridge 时，将环境变量 UNITY_HOST 设置为 Unity 所在机器的 IP 地址：  
-   `UNITY_HOST=192.168.1.100 node server.js`
 
 ## <a name="debug-server"></a>调试服务器
 

@@ -56,19 +56,8 @@ namespace McpUnity.Unity
             try
             {
                 McpLogger.LogInfo($"WebSocket message received: {e.Data}");
-                JObject requestJson;
-                try
-                {
-                    requestJson = JObject.Parse(e.Data);
-                }
-                catch (JsonReaderException jre)
-                {
-                    McpLogger.LogError($"Invalid JSON received: {jre.Message}. Data: {e.Data}");
-                    // Attempt to send a parse error response. No requestId is available yet.
-                    Send(CreateResponse(null, CreateErrorResponse($"Invalid JSON format: {jre.Message}", "invalid_json")).ToString(Formatting.None));
-                    return;
-                }
-
+                
+                var requestJson = JObject.Parse(e.Data);
                 var method = requestJson["method"]?.ToString();
                 var parameters = requestJson["params"] as JObject ?? new JObject();
                 var requestId = requestJson["id"]?.ToString();
@@ -92,11 +81,14 @@ namespace McpUnity.Unity
                     tcs.SetResult(CreateErrorResponse($"Unknown method: {method}", "unknown_method"));
                 }
                 
+                // Wait for the task to complete
                 JObject responseJson = await tcs.Task;
+                
+                // Format as JSON-RPC 2.0 response
                 JObject jsonRpcResponse = CreateResponse(requestId, responseJson);
                 string responseStr = jsonRpcResponse.ToString(Formatting.None);
                 
-                McpLogger.LogInfo($"WebSocket message response for request ID '{requestId}': {responseStr}");
+                McpLogger.LogInfo($"WebSocket message response: {responseStr}");
                 
                 // Send the response back to the client
                 Send(responseStr);
@@ -168,7 +160,7 @@ namespace McpUnity.Unity
             }
             catch (Exception ex)
             {
-                McpLogger.LogError($"Error executing tool {tool.Name}: {ex.Message}\n{ex.StackTrace}");
+                McpLogger.LogError($"Error executing tool {tool.Name}: {ex.Message}");
                 tcs.SetResult(CreateErrorResponse(
                     $"Failed to execute tool {tool.Name}: {ex.Message}",
                     "tool_execution_error"
@@ -197,7 +189,7 @@ namespace McpUnity.Unity
             }
             catch (Exception ex)
             {
-                McpLogger.LogError($"Error fetching resource {resource.Name}: {ex.Message}\n{ex.StackTrace}");
+                McpLogger.LogError($"Error fetching resource {resource.Name}: {ex}");
                 tcs.SetResult(CreateErrorResponse(
                     $"Failed to fetch resource {resource.Name}: {ex.Message}",
                     "resource_fetch_error"

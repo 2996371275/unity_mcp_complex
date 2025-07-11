@@ -255,18 +255,6 @@ MCP Unityサーバーを起動するには2つの方法があります：
 > [!TIP]  
 > AIコーディングIDE（Claude Desktop、Cursor IDE、Windsurf IDEなど）とMCPサーバー間のタイムアウトは、使用するIDEによって異なる場合があります。
 
-## オプション：リモート MCP ブリッジ接続を許可する
-
-デフォルトでは、WebSocket サーバーは 'localhost' にバインドされています。他のマシンから MCP ブリッジ接続を許可するには、以下の手順に従ってください：
-
-1. Unity エディターを開く  
-2. メニューから「Tools > MCP Unity > Server Window」を選択  
-3. 「Allow Remote Connections（リモート接続を許可）」チェックボックスを有効にする  
-4. Unity は WebSocket サーバーを '0.0.0.0'（すべてのインターフェース）にバインドします  
-5. Node.js サーバーを再起動して新しいホスト設定を適用する  
-6. リモートで MCP ブリッジを実行する場合は、環境変数 UNITY_HOST を Unity 実行マシンの IP アドレスに設定して起動：  
-   `UNITY_HOST=192.168.1.100 node server.js`
-
 ## サポート & フィードバック
 
 ご質問やサポートが必要な場合は、このリポジトリの[Issue](https://github.com/CoderGamester/mcp-unity/issues)を開くか、以下までご連絡ください：

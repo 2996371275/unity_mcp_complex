@@ -12,14 +12,29 @@ import { registerGetConsoleLogsTool } from './tools/getConsoleLogsTool.js';
 import { registerUpdateComponentTool } from './tools/updateComponentTool.js';
 import { registerAddAssetToSceneTool } from './tools/addAssetToSceneTool.js';
 import { registerUpdateGameObjectTool } from './tools/updateGameObjectTool.js';
-import { registerGetMenuItemsResource } from './resources/getMenuItemResource.js';
-import { registerGetConsoleLogsResource } from './resources/getConsoleLogsResource.js';
-import { registerGetHierarchyResource } from './resources/getScenesHierarchyResource.js';
-import { registerGetPackagesResource } from './resources/getPackagesResource.js';
-import { registerGetAssetsResource } from './resources/getAssetsResource.js';
-import { registerGetTestsResource } from './resources/getTestsResource.js';
+import { registerAnalyzeProfilerTool } from './tools/analyzeProfilerTool.js';
+import { registerAnalyzeSpecificFrameTool } from './tools/analyzeSpecificFrameTool.js';
+import { registerAnalyzeModuleTool } from './tools/analyzeModuleTool.js';
+
+// Import resource modules
 import { registerGetGameObjectResource } from './resources/getGameObjectResource.js';
+import { registerGetHierarchyResource } from './resources/getScenesHierarchyResource.js';
+import { registerGetAssetsResource } from './resources/getAssetsResource.js';
+import { registerGetPackagesResource } from './resources/getPackagesResource.js';
+import { registerGetConsoleLogsResource } from './resources/getConsoleLogsResource.js';
+import { registerGetTestsResource } from './resources/getTestsResource.js';
+import { registerGetMenuItemsResource } from './resources/getMenuItemResource.js';
+import { registerGetProfilerResource } from './resources/getProfilerResource.js';
+
+// Import prompt modules
 import { registerGameObjectHandlingPrompt } from './prompts/gameobjectHandlingPrompt.js';
+import { registerUnityPerformanceAnalysisPrompt } from './prompts/unityPerformanceAnalysisPrompt.js';
+import { registerUnityMcpGuidePrompt } from './prompts/unityMcpGuidePrompt.js';
+import { registerUnityOperationsPrompt } from './prompts/unityOperationsPrompt.js';
+import { registerUnityUIPrompt } from './prompts/unityUIPrompt.js';
+import { registerUnityScriptingPrompt } from './prompts/unityScriptingPrompt.js';
+import { registerUnityFrameAnalysisPrompt } from './prompts/unityFrameAnalysisPrompt.js';
+import { registerUnityModuleAnalysisPrompt } from './prompts/unityModuleAnalysisPrompt.js';
 
 // Initialize loggers
 const serverLogger = new Logger('Server', LogLevel.INFO);
@@ -55,18 +70,29 @@ registerGetConsoleLogsTool(server, mcpUnity, toolLogger);
 registerUpdateComponentTool(server, mcpUnity, toolLogger);
 registerAddAssetToSceneTool(server, mcpUnity, toolLogger);
 registerUpdateGameObjectTool(server, mcpUnity, toolLogger);
+registerAnalyzeProfilerTool(server, mcpUnity, toolLogger);
+registerAnalyzeSpecificFrameTool(server, mcpUnity, toolLogger);
+registerAnalyzeModuleTool(server, mcpUnity, toolLogger);
 
 // Register all resources into the MCP server
-registerGetTestsResource(server, mcpUnity, resourceLogger);
 registerGetGameObjectResource(server, mcpUnity, resourceLogger);
-registerGetMenuItemsResource(server, mcpUnity, resourceLogger);
-registerGetConsoleLogsResource(server, mcpUnity, resourceLogger);
 registerGetHierarchyResource(server, mcpUnity, resourceLogger);
-registerGetPackagesResource(server, mcpUnity, resourceLogger);
 registerGetAssetsResource(server, mcpUnity, resourceLogger);
+registerGetPackagesResource(server, mcpUnity, resourceLogger);
+registerGetConsoleLogsResource(server, mcpUnity, resourceLogger);
+registerGetTestsResource(server, mcpUnity, resourceLogger);
+registerGetMenuItemsResource(server, mcpUnity, resourceLogger);
+registerGetProfilerResource(server, mcpUnity, resourceLogger);
 
 // Register all prompts into the MCP server
 registerGameObjectHandlingPrompt(server);
+registerUnityPerformanceAnalysisPrompt(server);
+registerUnityMcpGuidePrompt(server);
+registerUnityOperationsPrompt(server);
+registerUnityUIPrompt(server);
+registerUnityScriptingPrompt(server);
+registerUnityFrameAnalysisPrompt(server);
+registerUnityModuleAnalysisPrompt(server);
 
 // Server startup function
 async function startServer() {

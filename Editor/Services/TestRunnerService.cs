@@ -21,7 +21,6 @@ namespace McpUnity.Services
         private readonly TestRunnerApi _testRunnerApi;
         private TaskCompletionSource<JObject> _tcs;
         private bool _returnOnlyFailures;
-        private bool _returnWithLogs;
         private List<ITestResultAdaptor> _results;
 
         /// <summary>
@@ -30,8 +29,18 @@ namespace McpUnity.Services
         public TestRunnerService()
         {
             _testRunnerApi = ScriptableObject.CreateInstance<TestRunnerApi>();
-            _results = new List<ITestResultAdaptor>();
+            
             _testRunnerApi.RegisterCallbacks(this);
+        }
+
+        [MenuItem("Tools/MCP Unity/Debug call path")]
+        public static async void DebugCallGetAllTests()
+        {
+            var service = new TestRunnerService();
+            var tests = await service.GetAllTestsAsync();
+            Debug.Log($"Retrieved {tests.Count} tests:");
+            foreach (var t in tests)
+                Debug.Log($"Test: {t.FullName} ({t.TestMode}) - State: {t.RunState}");
         }
 
         /// <summary>
@@ -68,16 +77,14 @@ namespace McpUnity.Services
         /// </summary>
         /// <param name="testMode">The test mode to run (EditMode or PlayMode).</param>
         /// <param name="returnOnlyFailures">If true, only failed test results are included in the output.</param>
-        /// <param name="returnWithLogs">If true, all logs are included in the output.</param>
         /// <param name="testFilter">A filter string to select specific tests to run.</param>
         /// <returns>Task that resolves with test results when tests are complete</returns>
-        public async Task<JObject> ExecuteTestsAsync(TestMode testMode, bool returnOnlyFailures, bool returnWithLogs, string testFilter = "")
+        public async Task<JObject> ExecuteTestsAsync(TestMode testMode, bool returnOnlyFailures, string testFilter = "")
         {
-            var filter = new Filter { testMode = testMode };
-
             _tcs = new TaskCompletionSource<JObject>();
+            _results = new List<ITestResultAdaptor>();
             _returnOnlyFailures = returnOnlyFailures;
-            _returnWithLogs = returnWithLogs;
+            var filter = new Filter { testMode = testMode };
 
             if (!string.IsNullOrEmpty(testFilter))
             {
@@ -135,10 +142,6 @@ namespace McpUnity.Services
         /// </summary>
         public void RunStarted(ITestAdaptor testsToRun)
         {
-            if (_tcs == null)
-                return;
-            
-            _results.Clear();
             McpLogger.LogInfo($"Test run started: {testsToRun?.Name}");
         }
 
@@ -155,9 +158,6 @@ namespace McpUnity.Services
         /// </summary>
         public void TestFinished(ITestResultAdaptor result)
         {
-            if (_tcs == null)
-                return;
-            
             _results.Add(result);
         }
 
@@ -166,12 +166,8 @@ namespace McpUnity.Services
         /// </summary>
         public void RunFinished(ITestResultAdaptor result)
         {
-            if (_tcs == null)
-                return;
-            
             var summary = BuildResultJson(_results, result);
-            _tcs.TrySetResult(summary);
-            _tcs = null;
+            _tcs?.TrySetResult(summary);
         }
 
         #endregion
@@ -195,30 +191,30 @@ namespace McpUnity.Services
 
         private JObject BuildResultJson(List<ITestResultAdaptor> results, ITestResultAdaptor result)
         {
+            int pass = results.Count(r => r.ResultState == "Passed");
+            int fail = results.Count(r => r.ResultState == "Failed");
+            int skip = results.Count(r => r.ResultState == "Skipped");
+
             var arr = new JArray(results
-                .Where(r => !r.HasChildren)
                 .Where(r => !_returnOnlyFailures || r.ResultState == "Failed")
                 .Select(r => new JObject {
                     ["name"]      = r.Name,
                     ["fullName"]  = r.FullName,
                     ["state"]     = r.ResultState,
                     ["message"]   = r.Message,
-                    ["duration"]  = r.Duration,
-                    ["logs"]      = _returnWithLogs ? r.Output : null,
-                    ["stackTrace"] = r.StackTrace
+                    ["duration"]  = r.Duration
                 }));
 
-            int testCount = result.PassCount + result.SkipCount + result.FailCount;
             return new JObject { 
                 ["success"]           = true,
                 ["type"]              = "text",
-                ["message"]           = $"{result.Test.Name} test run completed: {result.PassCount}/{testCount} passed - {result.FailCount}/{testCount} failed - {result.SkipCount}/{testCount} skipped",
+                ["message"]           = $"{result.Test.Name} test run completed: {pass}/{results.Count} passed - {fail}/{results.Count} failed - {skip}/{results.Count} skipped",
                 ["resultState"]       = result.ResultState,
                 ["durationSeconds"]   = result.Duration,
                 ["testCount"]         = results.Count,
-                ["passCount"]         = result.PassCount,
-                ["failCount"]         = result.FailCount,
-                ["skipCount"]         = result.SkipCount,
+                ["passCount"]         = pass,
+                ["failCount"]         = fail,
+                ["skipCount"]         = skip,
                 ["results"]           = arr
             };
         }

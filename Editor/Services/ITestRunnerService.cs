@@ -22,9 +22,8 @@ namespace McpUnity.Services
         /// </summary>
         /// <param name="testMode">The test mode to run (EditMode or PlayMode).</param>
         /// <param name="returnOnlyFailures">If true, only failed test results are included in the output.</param>
-        /// <param name="returnWithLogs">If true, all logs are included in the output.</param>
         /// <param name="testFilter">A filter string to select specific tests to run.</param>
         /// <returns>Task that resolves with test results when tests are complete</returns>
-        Task<JObject> ExecuteTestsAsync(TestMode testMode, bool returnOnlyFailures, bool returnWithLogs, string testFilter);
+        Task<JObject> ExecuteTestsAsync(TestMode testMode, bool returnOnlyFailures, string testFilter);
     }
 }

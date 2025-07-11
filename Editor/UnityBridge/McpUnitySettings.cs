@@ -36,9 +36,6 @@ namespace McpUnity.Unity
 
         [Tooltip("Optional: Full path to the npm executable (e.g., /Users/user/.asdf/shims/npm or C:\\path\\to\\npm.cmd). If not set, 'npm' from the system PATH will be used.")]
         public string NpmExecutablePath = string.Empty;
-        
-        [Tooltip("Allow connections from remote MCP bridges. When disabled, only localhost connections are allowed (default).")]
-        public bool AllowRemoteConnections = false;
 
         /// <summary>
         /// Singleton instance of settings

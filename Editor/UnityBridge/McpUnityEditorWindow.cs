@@ -135,19 +135,6 @@ namespace McpUnity.Unity
             
             EditorGUILayout.Space();
             
-            // Allow remote connections toggle
-            bool allowRemoteConnections = EditorGUILayout.Toggle(new GUIContent("Allow Remote Connections", "Allow connections from remote MCP bridges. When disabled, only localhost connections are allowed (default)."), settings.AllowRemoteConnections);
-            if (allowRemoteConnections != settings.AllowRemoteConnections)
-            {
-                settings.AllowRemoteConnections = allowRemoteConnections;
-                settings.SaveSettings();
-                // Restart server to apply binding change
-                mcpUnityServer.StopServer();
-                mcpUnityServer.StartServer();
-            }
-            
-            EditorGUILayout.Space();
-            
             // Enable info logs toggle
             bool enableInfoLogs = EditorGUILayout.Toggle(new GUIContent("Enable Info Logs", "Show informational logs in the Unity console"), settings.EnableInfoLogs);
             if (enableInfoLogs != settings.EnableInfoLogs)
@@ -175,7 +162,7 @@ namespace McpUnity.Unity
                 mcpUnityServer.StopServer();
             }
             
-            //Repaint();
+            Repaint();
             
             GUI.enabled = true;
             EditorGUILayout.EndHorizontal();

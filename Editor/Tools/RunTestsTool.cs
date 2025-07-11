@@ -37,7 +37,6 @@ namespace McpUnity.Tools
             string testModeStr = parameters?["testMode"]?.ToObject<string>() ?? "EditMode";
             string testFilter = parameters?["testFilter"]?.ToObject<string>(); // Optional
             bool returnOnlyFailures = parameters?["returnOnlyFailures"]?.ToObject<bool>() ?? false; // Optional
-            bool returnWithLogs = parameters?["returnWithLogs"]?.ToObject<bool>() ?? false; // Optional
 
             TestMode testMode = TestMode.EditMode;
             
@@ -49,7 +48,7 @@ namespace McpUnity.Tools
             McpLogger.LogInfo($"Executing RunTestsTool: Mode={testMode}, Filter={testFilter ?? "(none)"}");
 
             // Call the service to run tests
-            JObject result = await _testRunnerService.ExecuteTestsAsync(testMode, returnOnlyFailures, returnWithLogs, testFilter);
+            JObject result = await _testRunnerService.ExecuteTestsAsync(testMode, returnOnlyFailures, testFilter);
             tcs.SetResult(result);
         }
     }

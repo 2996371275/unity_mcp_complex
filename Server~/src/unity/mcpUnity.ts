@@ -34,7 +34,6 @@ interface UnityResponse {
 export class McpUnity {
   private logger: Logger;
   private port: number | null = null;
-  private host: string = 'localhost';
   private ws: WebSocket | null = null;
   private pendingRequests: Map<string, PendingRequest> = new Map<string, PendingRequest>();
   private requestTimeout = 10000;
@@ -81,10 +80,6 @@ export class McpUnity {
     this.port = configPort ? parseInt(configPort, 10) : 8090;
     this.logger.info(`Using port: ${this.port} for Unity WebSocket connection`);
     
-    // Check environment variable first, then config file, then default to localhost
-    const configHost = process.env.UNITY_HOST || config.Host;
-    this.host = configHost || 'localhost';
-    
     // Initialize timeout from environment variable (in seconds; it is the same as Cline) or use default (10 seconds)
     const configTimeout = config.RequestTimeoutSeconds;
     this.requestTimeout = configTimeout ? parseInt(configTimeout, 10) * 1000 : 10000;
@@ -105,7 +100,7 @@ export class McpUnity {
     this.disconnect();
     
     return new Promise<void>((resolve, reject) => {
-      const wsUrl = `ws://${this.host}:${this.port}/McpUnity`;
+      const wsUrl = `ws://localhost:${this.port}/McpUnity`;
       this.logger.debug(`Connecting to ${wsUrl}...`);
       
       // Create connection options with headers for client identification
