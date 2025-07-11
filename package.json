@@ -1,11 +1,11 @@
 {
   "name": "com.gamelovers.mcp-unity",
-  "displayName": "MCP Unity Server",
-  "author": "CoderGamester",
-  "version": "1.1.1",
+  "displayName": "unity-mcp-complex",
+  "author": "xulin",
+  "version": "1.1.2",
   "unity": "2022.3",
   "license": "MIT",
-  "description": "The purpose of this package is to provide a MCP Unity Server for executing Unity operations and request Editor information from AI MCP enabled hosts",
+  "description": "源地址：https://github.com/CoderGamester/mcp-unity/tree/main",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.editorcoroutines": "1.0.0"
